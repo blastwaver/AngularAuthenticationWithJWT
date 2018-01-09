@@ -16,6 +16,8 @@ import { SignupComponent } from './signup/signup.component';
 import { AdminComponent } from './admin/admin.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { NoAccessComponent } from './no-access/no-access.component';
+import { AuthGuard } from 'app/services/auth-guard.service';
+import { AdminAuthGuard } from 'app/services/admin-auth-guard.service';
 
 @NgModule({
   declarations: [
@@ -32,16 +34,30 @@ import { NoAccessComponent } from './no-access/no-access.component';
     FormsModule,
     HttpModule,
     RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'admin', component: AdminComponent },
+      { path: '',
+        component: HomeComponent
+      },
+      { path: 'admin', component: AdminComponent,  canActivate: [AuthGuard,AdminAuthGuard] },
       { path: 'login', component: LoginComponent },
       { path: 'no-access', component: NoAccessComponent }
     ])
   ],
   providers: [
+    AUTH_PROVIDERS,
     OrderService,
-
     AuthService,
+    AuthGuard,
+    // AuthHttp,
+    AdminAuthGuard,
+  //   provideAuth({
+  //     headerName: 'Authorization',
+  //     headerPrefix: 'bearer',
+  //     tokenName: 'token',
+  //     tokenGetter: (() => localStorage.getItem('token')),
+  //     globalHeaders: [{ 'Content-Type': 'application/json' }],
+  //     noJwtError: true
+  // }),
+    
 
     // For creating a mock back-end. You don't need these in a real app. 
     fakeBackendProvider,

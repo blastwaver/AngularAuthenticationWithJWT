@@ -5,7 +5,7 @@ export function fakeBackendFactory(
     backend: MockBackend, 
     options: BaseRequestOptions) {
         
-  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6Ik1vc2ggSGFtZWRhbmkiLCJhZG1pbiI6dHJ1ZX0.iy8az1ZDe-_hS8GLDKsQKgPHvWpHl0zkQBqy1QIPOkA';
+  let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWV9.TJVA95OrM7E2cBab30RMHrHDcEfxjoYZgeFONFh7HgQ';
     
   backend.connections.subscribe((connection: MockConnection) => {
     // We are using the setTimeout() function to simulate an 
@@ -38,7 +38,9 @@ export function fakeBackendFactory(
        //
        if (connection.request.url.endsWith('/api/orders') && 
            connection.request.method === RequestMethod.Get) {
+            console.log(connection.request.headers);
          if (connection.request.headers.get('Authorization') === 'Bearer ' + token) {
+           
             connection.mockRespond(new Response(
               new ResponseOptions({ status: 200, body: [1, 2, 3] })
          ));
